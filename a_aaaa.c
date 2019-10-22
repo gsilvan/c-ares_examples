@@ -9,12 +9,12 @@ static void callback(void *arg, int status, int timeouts, struct hostent *host){
         printf("%s\n", ares_strerror(status));
         return;
     }
-	char ip[INET6_ADDRSTRLEN];
-	int i = 0;
-	for (i = 0; host->h_addr_list[i]; i++){
-		inet_ntop(host->h_addrtype, host->h_addr_list[i], ip, sizeof(ip));
-		printf("%s %s\n", host->h_name, ip);
-	}
+    char ip[INET6_ADDRSTRLEN];
+    int i = 0;
+    for (i = 0; host->h_addr_list[i]; i++){
+        inet_ntop(host->h_addrtype, host->h_addr_list[i], ip, sizeof(ip));
+        printf("%s %s\n", host->h_name, ip);
+    }
 }
 
 int main(int argc, char *argv[]){
@@ -22,12 +22,12 @@ int main(int argc, char *argv[]){
         return -1;
     }
     ares_channel channel;
-	if (ares_init(&channel) != ARES_SUCCESS){
+    if (ares_init(&channel) != ARES_SUCCESS){
         return -1;
-	}
-	ares_gethostbyname(channel, argv[1], AF_INET, callback, NULL);
-	ares_gethostbyname(channel, argv[1], AF_INET6, callback, NULL);
-	ares_wait(channel);
+    }
+    ares_gethostbyname(channel, argv[1], AF_INET, callback, NULL);
+    ares_gethostbyname(channel, argv[1], AF_INET6, callback, NULL);
+    ares_wait(channel);
     ares_destroy(channel);
-	ares_library_cleanup();
+    ares_library_cleanup();
 }
